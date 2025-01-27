@@ -1,5 +1,5 @@
 // Rocket prefab
-class Rocket extends Phaser.GameObjects.Sprite {
+class Rocket2 extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame)
 
@@ -15,28 +15,16 @@ class Rocket extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // mouse control
-        mouseX = game.input.mousePointer.x
-        if (mouseX >= borderUISize + this.width && mouseX <= game.config.width - borderUISize - this.width) {
-            this.x = mouseX
-        }
-        // left click fire
-        const p = game.input.activePointer;
-        if (p.leftButtonDown() && !this.isFiring) {
-            this.isFiring = true
-            this.sfxShot.play()
-        }
-
         // left/right movement
-        if (keyLEFT.isDown && this.x >= borderUISize + this.width) {
+        if (keyA.isDown && this.x >= borderUISize + this.width) {
             this.x -= this.moveSpeed
         }
-        else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
+        else if (keyD.isDown && this.x <= game.config.width - borderUISize - this.width) {
             this.x += this.moveSpeed
         }
 
         // fire button
-        if ((!twoPlayer && Phaser.Input.Keyboard.JustDown(keyFIRE) && !this.isFiring) || (twoPlayer && Phaser.Input.Keyboard.JustDown(keyFIRE2) && !this.isFiring)) {
+        if (Phaser.Input.Keyboard.JustDown(keyFIRE) && !this.isFiring) {
             this.isFiring = true
             this.sfxShot.play()
         }
@@ -47,9 +35,6 @@ class Rocket extends Phaser.GameObjects.Sprite {
         // reset on miss
         if (this.y <= borderUISize * 3 + borderPadding) {
             this.reset()
-            if (!twoPlayer) {
-                this.play.subtractTime(2)
-            }
         }
     }
 
